@@ -1,0 +1,31 @@
+Q1. We can run the scenario for Q1 using: python3 mlfq.py -n 2 -j 2 -m 20 -M 0. 
+The first random scenario that I got was Job List:
+  Job  0: startTime   0 - runTime  17 - ioFreq   0
+  Job  1: startTime   0 - runTime   8 - ioFreq   0
+
+Initially both jobs will start at priority 1, which is highest priority. Job 0 runs for the 10ms time slice after which it will be moved to lower priority i.e 0. Then job 1 will run for 8 ms and finish its execution. Since there are no more jobs in priority 1 queue, we run job 0 which is at priority 0 for 7 ms after which job 0 completes its execution.
+
+Another scenario:
+Job List:
+  Job  0: startTime   0 - runTime   3 - ioFreq   0
+  Job  1: startTime   0 - runTime  15 - ioFreq   0
+
+Initially both jobs will start at priority 1, which is highest priority. Job 0 will run for 3 ms and finish its execution. Job 1 runs for the 10ms time slice after which it will be moved to lower priority i.e 0.  Since there are no more jobs in priority 1 queue, we run job 1 which is at priority 0 for 5 ms after which job 1 completes its execution.
+
+Q2. example 1: python3 mlfq.py -n 3 -l 0,200,0
+example 2: python3 mlfq.py -n 3 -l 0,200,0:100,20,0
+example 3: python3 mlfq.py -n 3 -l 0,200,0:50,20,1 -S
+example 4: python3 mlfq.py -n 3 -l 0,200,0:100,50,5:100,50,5 -S without boosting
+python3 mlfq.py -n 3 -l 0,200,0:100,50,5:100,50,5 -S -B 50 with boosting
+example 5: python3 mlfq.py -n 3 -l 0,200,0:100,90,9 -S -i 1 -c without gaming tolerance
+python3 mlfq.py -n 3 -l 0,200,0:100,90,9 -i 1 -c with gaming tolerance
+example 6: python3 mlfq.py -l 0,200,0:0,200,0 -Q 10,20,40
+
+Q3: We can confiure mlfq to behave like round robin by setting the number of queues as 1. e.g python3 mlfq.py -n 1 -j 5 -m 30 -M 0 -c
+
+Q4. We can game the mlfq using the following command: python3 mlfq.py -n 3 -l 0,100,9:0,100,0 -S -i 1 -I where job 0 issues io after every 9 secs to stay in the top priority queue and hence games the scheduler gaining control of 99% of cpu during first 100 ms.
+
+Q5. We will have to boost jobs back to highest priority every 200 ms to ensure that a single long running job gets atleast 5% of the CPU.
+
+Q6. python3 mlfq.py -n 3 -l 0,100,2:0,100,3 -c
+Toggling the -I flag has effect on the turnaround time of the jobs. The turnaround time increases with -I flag if the jobs in the system issue IO with lower frequency. The turnaround time decreses with -I flag if the jobs in the system issue IO with higher frequency say every 1 or 2 ms.

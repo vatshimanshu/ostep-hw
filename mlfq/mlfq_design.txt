@@ -1,0 +1,17 @@
+MLFQ is a scheduling algorithm that aims to minimize response time for interative processes and minimize overall turnaround time for all the processes. It achieves this by having multiple scheduler queues of different priorities and applying round robin algortithm within each queue. In general the mlfq queues are governed by the following rules:
+
+Rule 1: If Priority(A) > Priority(B), A runs (B doesn’t).
+• Rule 2: If Priority(A) = Priority(B), A & B run in round-robin fash-
+ion using the time slice (quantum length) of the given queue.
+• Rule 3: When a job enters the system, it is placed at the highest
+priority (the topmost queue).
+• Rule 4: Once a job uses up its time allotment at a given level (re-
+gardless of how many times it has given up the CPU), its priority is
+reduced (i.e., it moves down one queue).
+• Rule 5: After some time period S, move all the jobs in the system
+to the topmost queue.
+
+These rules present a general guideline for designing a mlfq but leaves a few design choices open to be implemented as necessary. Specifically it does not tell how many queues the system should have, what should be the time quanta for each queue and when should processes be boosted. To keep the design simple I will be implementing a mlfq with 5 queues. The design can be later extended to include more levels of queue if desired. I will also be increasing the time quanta for each queue as we go down the levels, starting with 10 ms for the highest priority queue, increasin the quantum with 10 ms as we go down the levels. I will be experimenting with different time after which processes should be boosted and choose a time which decreases overall response time and turnaround time.
+
+We also need to have some kind of mechanism to evalate the performance of the mlfq for different scenarios. To achieve this I will be creating an interface to the mlfq like the simulator presented in chapter 8 to evaluate the performance of my mlfq for different scenarios.
+

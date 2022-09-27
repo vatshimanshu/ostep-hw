@@ -133,12 +133,28 @@ Random 995645 -> Winning ticket 5 (of 60) -> Run 0
 --> JOB 0 DONE at time 5
 we are only left with job2, so run job2 to its completion.
 
-Q2. Such imbalance in tickets will lead to lottery scheduling to be unfair towards the process with less number of tickets i.e job0. We will observe that job1 takes most of the cpu until its completion and then job0 will run. Sometimes job0 will run once before job1 is complete. This will happen very less frequently say once in 100 runs.
+Q2. Such imbalance in tickets will lead to lottery scheduling to be unfair
+towards the process with less number of tickets i.e job0. We will observe that
+job1 takes most of the cpu until its completion and then job0 will run.
+Sometimes job0 will run once before job1 is complete. This will happen very
+less frequently say once in 100 runs.
 
-Q3. The scheduler is pretty fair when we have equal number of tickets for two processes and both processes will complete almost at the same time with an average difference of around 8.5 ms when computed for 10 random trials.
+Q3. The scheduler is pretty fair when we have equal number of tickets for two
+processes and both processes will complete almost at the same time with an
+average difference of around 8.5 ms when computed for 10 random trials.
 
-Q4. The unfairness of scheduler increases with increase in quantum length as the average differene between completion time of the two processes increases to 17 when the same experiment is conducted with 10 random trials.
+Q4. The unfairness of scheduler increases with increase in quantum length as
+the average differene between completion time of the two processes increases to
+17 when the same experiment is conducted with 10 random trials.
 
-Q5. Yes we can make a version of the graph present in the book for this scenario. We should observe a decrease in fairness as the value of quantum is increased for the above scenario. 
-Another thing that we can explore is the combined effect of increase in job length and quantum length on the fairness of scheduler. I think if the job length increases to say 10000 from 100 the effect of increase in quantum lenght from 1 to 5 will not be that prominent.
-Stride scheduler should be equally fair for the above scenario with two jobs of length 100 and 100 ticjets, independent of quantum length. Stride scheduler will alternate between the two processes for quantum length and hence it is independent of quantum.
+Q5. Yes we can make a version of the graph present in the book for this
+scenario. We should observe a decrease in fairness as the value of quantum is
+increased for the above scenario. 
+Another thing that we can explore is the combined effect of increase in job
+length and quantum length on the fairness of scheduler. I think if the job
+length increases to say 10000 from 100 the effect of increase in quantum lenght
+from 1 to 5 will not be that prominent.
+Stride scheduler should be equally fair for the above scenario with two jobs of
+length 100 and 100 ticjets, independent of quantum length. Stride scheduler 
+will alternate between the two processes for quantum length and hence it is
+independent of quantum.

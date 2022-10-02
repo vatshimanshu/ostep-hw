@@ -3,3 +3,4 @@
 
 # mac
 .DS_Store
+*.dSYM

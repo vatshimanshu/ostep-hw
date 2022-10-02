@@ -1,0 +1,35 @@
+Q1. We get a segmentation fault when we try to run null. This happens because 
+we are trying to dereference a null pointer.
+
+Q2. Running the program in gdb shows us the stacktrace of the segmentation
+fault. It tells us that we tried to execute a bad memory access at line 6 
+when we tried to dereference a null pointer.
+
+Q3. Valgrind gives us a lot more detail about the segmentation fault 
+like we did an invalid read of size 4, Address 0x0 is not stack'd, 
+malloc'd or (recently) free'd. It also tells us a brief summary of the heap
+allocation.
+
+Q4. The program runs fine and we don't get any errors. Even gdb is not 
+able to find any problems with program and it exits successfully. But 
+valgrind tells us that we forgot to free the memory allocated on heap by
+malloc.
+
+Q5. The program runs fine, but valgrind finds two problems with our code.
+First is that we forgot to free memory like last time. Secondly we did 
+an invalid write of size 4. This is because we only allocated space for 100
+int in heap, but we set the value of 101st int.
+
+Q6. The program runs fine and prints some aribitary value. But there is 
+problem with our code. Valgrind tells us that we are doing an 
+invalid read of size 4, since we are trying from a block of memory on heap 
+that has been freed.
+
+Q7. The program crashes with with sigabort error. We also find that 
+the program crashed due to invalid pointer to free. We can use gdb and valgrind
+to further pin point the issue.
+
+Q8. See vector.c for the code. This vector does not perform very well since
+we need to call realloc everytime we need to insert a new element to vector.
+Realloc takes O(n) time complexity in worst case so it is not very efficient
+when compared to a linked list in which the insertion happens in O(1) case.

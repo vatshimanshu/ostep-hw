@@ -1,0 +1,31 @@
+Q1. Free is a Linux command line tool that tells us 
+about the amount of total, free and used physical memory in the system.
+
+Q2. Output of free -m in Khoury Linux servers:
+bash-4.2$ free -m
+              total        used        free      shared  buff/cache   available
+Mem:           7821        1562        1872          57        4385        5902
+Swap:          8191           4        8187
+
+Total memory = 7821 MB
+Free = 1872 MB
+
+Q3. See file memory-user.c for the code.
+
+Q4. When we run memory-user program with lower amount of memory like
+10 MB, the amount of free memory reported by free decreases by 10 MB and 
+used memory increases by 10 MB. But when we use higher values of memory like 
+100 MB the the amount of free memory reported by free does not decrease by 
+100 exactly but decreases by a values like 94 or 93 MB. 
+
+Q5. pmap reports virtual memory map of a process.
+
+Q7. pmap shows the whole virtual memory address of a process starting with
+code followed by heap and stack. We also see some other memory sections for
+shared libraries, vdso and vsyscall entities.
+
+Q8. We see that the memory used by the program increases as we specify higher
+values while running memory-user. But the memory allocated by program is not 
+always as expected like for memory-user 10 we use 9768 in heap for the array,
+but for memory-user 10 we see 97660 in heap for array instead of 97680 as
+expected.

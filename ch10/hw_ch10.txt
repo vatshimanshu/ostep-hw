@@ -1,0 +1,47 @@
+Q1. The process takes 30 units of time to run. run using 
+./multi.py -n 1 -L a:30:200. 
+
+Q2. The process takes 20 units of time to run since once the cache gets 
+warmed up the process runs 2x faster and hence completes early.
+./multi.py -n 1 -L a:30:200 -M 300
+
+Q3. The second column decreases by 1 for the first 10 units of time 
+while the cache is cold. Once the cache gets warm the process starts 
+running at 2x speed and finishes in 20 units instead of 30.
+
+Q4. The cache becomes warm for job a at t=9. If we increase the warmup time
+cache becomes warm later and if we decrease warmup time cache gets
+warmer earlier.
+
+Q5. The jobs takes 150 time to complete. We also see that the cpu is not 
+able to effectively use caching to make the process run faster. Specifically,
+as soon as the cache gets warmed up for one process, we schedule another 
+process and cpu is not able to use cache effectively.
+
+Q6. python3 ./multi.py -n 2 -L a:100:100,b:100:50,c:100:50 -A a:0,b:1,c:1
+This runs better(110 units) than the above because by limiting the processes to
+a single cpu we warm up the cache for that process which makes the process run
+faster. If we keep b and c on same processor and a on another processor it 
+will take 110 units to complete all processes. But if we use any other order 
+processes will take longer to run.
+
+Q7. The performance improves as the number of cpu's increase as more processes
+can be scheduled in parallel. We see an even greater increase in performance
+once we increase the cache size per cpu, because the cpu gets warmed up for 
+processes and thus the cpu can use cache to run processes faster.
+python3 multi.py -L a:100:100,b:100:100,c:100:100 -M 100 -n 3 -c -t -C
+
+Q8. Per cpu scheduling approach turned on with -p flag, works better than
+the hand controlled affinity. This is because once one cpu gets idle that cpu 
+can peek at other cpus workload and if other cpus workload is greater it 
+can take up jobs from that cpu and hence acheive better utilization of cpus.
+If we set the peek interval to higher values the performace degrades as 
+the cpu does not look that often at other cpu to balance the workload.
+If we decrease the peek interval the performace improves but at the cost 
+of increase in peek time. 
+Per cpu scheduling does not scale as expected when we increase the number
+of cpu. We see a drop in performace when we increase the number of cpu 
+from 3 to 4. This is because we have only 3 jobs in the system and a low peek
+time and so the jobs get rescheduled to other free cpu in the system.
+
+Q9. python3 multi.py -n 3 -c

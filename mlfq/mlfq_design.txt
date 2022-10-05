@@ -19,7 +19,7 @@ These rules present a general guideline for designing a mlfq but leaves a few
 design choices open to be implemented as necessary. Specifically it does not
 tell how many queues the system should have, what should be the time quanta for
 each queue and when should processes be boosted. To keep the design simple I
-will be implementing a mlfq with 5 queues. The design can be later extended to
+will be implementing a mlfq with 3 queues. The design can be later extended to
 include more levels of queue if desired. I will also be increasing the time
 quanta for each queue as we go down the levels, starting with 10 ms for the
 highest priority queue, increasin the quantum with 10 ms as we go down the

@@ -13,8 +13,15 @@ MLFQ::MLFQ(int *timeQ, int timeB)
     timeQuanta = timeQ;
 }
 
-void MLFQ::add_job(Process* p)
+void MLFQ::add_job(Process* p, bool boost)
 {
+    if (!boost) {
+        cout << "Process: " << p->pid << " has entered the system\n";
+    }
+    else {
+        cout << "Process: " << p->pid << " has been boosted\n";
+    }
+
     mlfq[0].push(p);
     p->set_curr_q(0);
 }
@@ -26,32 +33,28 @@ void MLFQ::boost() {
         {
             Process *curr = mlfq[i].front();
             mlfq[i].pop();
-            add_job(curr);
+            add_job(curr, true);
         }
     }
 }
 
-int MLFQ::run_quanta() {
+int MLFQ::run_quanta(int curr_time) {
     for (int i = 0; i <= QUEUE_END; i++) {
         if(!mlfq[i].empty()) {
+            cout << "current state of mlfq\n";
+            MLFQ::print();
             Process* curr = mlfq[i].front();
             mlfq[i].pop();
-            if (curr->remaining_time > timeQuanta[i]) {
-                curr->run_process(timeQuanta[i]);
-                if (i < QUEUE_END) {
-                    mlfq[i+1].push(curr);
-                    curr->set_curr_q(i+1);
-                }
-                else {
-                    mlfq[i].push(curr);
-                }
-                MLFQ::print();
-                return timeQuanta[i];
+            int run_time = curr->run_process(timeQuanta[i], curr_time);
+            if (i < QUEUE_END and curr->remaining_time > 0) {
+                mlfq[i+1].push(curr);
+                curr->set_curr_q(i+1);
             }
-            else {
-                MLFQ::print();
-                return curr->remaining_time;
+            else if (curr->remaining_time > 0)
+            {
+                mlfq[i].push(curr);
             }
+            return run_time;
         }
     }
     return -1;
@@ -65,7 +68,7 @@ void MLFQ::print() {
         while (!copy.empty())
         {
             Process *t = copy.front();
-            cout << "process id:"<<t->pid<<" start time:"<<t->start_time<< " run time:" <<t->run_time<<"remaining time:"<<t->remaining_time<<"\n";
+            cout << "process id:"<<t->pid<<" start time:"<<t->start_time<< " run time:" <<t->run_time<<" remaining time:"<<t->remaining_time<<"\n";
             copy.pop();
         }
     }

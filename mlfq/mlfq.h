@@ -16,9 +16,9 @@ public:
 
     MLFQ();
     MLFQ(int *timeQ, int timeB);
-    void add_job(Process *p);
+    void add_job(Process *p, bool boost);
     void boost();
-    int run_quanta();
+    int run_quanta(int curr_time);
     void print();
 };
 

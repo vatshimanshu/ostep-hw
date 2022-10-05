@@ -13,7 +13,7 @@ public:
 
     Process();
     Process(int id, int start, int run, int io);
-    void run_process(int time_run);
+    int run_process(int time_run, int curr_time);
     void set_curr_q(int q);
     void print();
 };

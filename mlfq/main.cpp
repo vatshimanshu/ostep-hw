@@ -2,7 +2,7 @@
 #include "mlfq.h"
 
 using namespace std;
-int curr_time = 0;
+int curr_time = 1;
 
 class simulate
 {
@@ -25,30 +25,42 @@ simulate::simulate(MLFQ queue, Process *jobs, int n)
 }
 
 void simulate::run() {
+    int added = 0;
+
     while (1)
     {
-        cout << "current time:" << curr_time << "\n";
+        if ((curr_time-1) % mlfq.timeBoost == 0) {
+            mlfq.boost();
+        }
+
         for (int i = 0; i < num_jobs; i++)
         {
             //job_list[i].print();
             if (curr_time >= job_list[i].start_time && job_list[i].curr_q == -1)
             {
-                mlfq.add_job(&job_list[i]);
+                mlfq.add_job(&job_list[i], false);
+                added += 1;
             }
         }
 
-        int elapsed = mlfq.run_quanta();
-        if (elapsed == -1)
+        int elapsed = mlfq.run_quanta(curr_time);
+        if (elapsed == -1 && added == num_jobs)
         {
             break;
         }
-        curr_time += elapsed;
+
+        if (elapsed == -1) {
+            curr_time += 1;
+        }
+        else {
+            curr_time += elapsed;
+        }
     }
 }
 
 int main() {
     int time_boost = 50;
-    int time_quanta[] = {10, 20, 30};
+    int time_quanta[] = {10, 10, 10};
 
     MLFQ mlfq = MLFQ(time_quanta, time_boost);
     cout << "Welcome to CS5600 MLFQ simulator.\n";

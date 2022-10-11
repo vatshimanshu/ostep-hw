@@ -1,0 +1,46 @@
+Q1. case 1:
+python3 segmentation.py -a 128 -p 512 -b 0 -l 20 -B 512 -L 20 -s 0
+ VA       |       PA
+108       |       492
+97        |       segmentation violation
+53        |       segmentation violation
+33        |       segmentation violation
+65        |       segmentation violation
+
+case 2:
+python3 segmentation.py -a 128 -p 512 -b 0 -l 20 -B 512 -L 20 -s 1
+VA        |       PA
+17        |       17 
+108       |       492
+97        |       segmentation violation
+32        |       segmentation violation
+63        |       segmentation violation
+
+case 3:
+python3 segmentation.py -a 128 -p 512 -b 0 -l 20 -B 512 -L 20 -s 2
+VA        |       PA
+122       |       506 
+121       |       505
+7         |       7
+10        |       10
+106       |       segmentation violation
+
+Q2. Highest legal virtual address in segment 0 is 19 and lowest legal virtual
+address in segment 1 is 108. Lowest illegal address is 20 and highest illegal 
+address is 107.
+python3 segmentation.py -a 128 -p 512 -b 0 -l 20 -B 512 -L 20 -s 2 -A 19,108,20,107 -c
+
+Q3. python3 segmentation.py -a 16 -p 128 -A 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 --b0 0 --l0 2 --b1 20 --l1 2 -c
+We need to set both limit registers l0 and l1 as 2. b0 can be any value between 0 and 126. b1 can be any value between 2 and 128.
+
+Q4. python3 segmentation.py -a 10 -p 30 --l0 4 --l1 5 -c -n 10
+If we want roughly 90% of the randomly-generated virtual addresses to be
+valid then we want 90% of the address space to be valid, i.e if the 
+address space is 100 bytes long we want atleast 90 bytes of the address
+space to be valid and in physical memory. We can ensure this by setting the
+sum of the two limit registers(sum of l1 and l0) to be equal to 90 or 
+greater than 90.
+
+Q5. python3 segmentation.py -a 10 -p 300 --l0 0 --l1 0 -c -n 10
+If we set the size of both limit registers(l0 and l1) to be zero then 
+we can run the simulator such that no virtual addresses are valid.

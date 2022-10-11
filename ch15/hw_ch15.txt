@@ -1,0 +1,39 @@
+Q1. sead 1:
+Virtual Address Trace
+  VA  0: decimal:  782--> SEGMENTATION VIOLATION
+  VA  1: decimal:  261 --> VALID: decimal: 14145
+  VA  2: decimal:  507 --> SEGMENTATION VIOLATION
+  VA  3: decimal:  460 --> SEGMENTATION VIOLATION
+  VA  4: decimal:  667 --> SEGMENTATION VIOLATION
+
+  sead 2:
+  VA  0: decimal:   57 --> decimal: 15586
+  VA  1: decimal:   86 --> decimal: 15615
+  VA  2: decimal:  855 --> SEGMENTATION VIOLATION
+  VA  3: decimal:  753 --> SEGMENTATION VIOLATION
+  VA  4: decimal:  685 --> SEGMENTATION VIOLATION
+
+  sead 3:
+  VA  0: decimal:  378 --> SEGMENTATION VIOLATION
+  VA  1: decimal:  618 --> SEGMENTATION VIOLATION
+  VA  2: decimal:  640 --> SEGMENTATION VIOLATION
+  VA  3: decimal:   67 --> decimal: 8983
+  VA  4: decimal:   13 --> decimal: 8929
+
+  Q2. We can set the limit register to any value greater than 929 in order
+  to ensure that all virtual addresses are legal.
+
+  Q3. 16284 is the maximum value base register can be set to in order to 
+  fit the process in physical memory. (k = 1024 in 16k)
+
+  Q4. python3 relocation.py -s 0 -n 10 -a 2k -p 32k -c
+  VA  0: decimal:  861 --> decimal: 25697
+  VA  1: decimal:  530 --> decimal: 25366
+  VA  2: decimal: 1047 --> SEGMENTATION VIOLATION
+  VA  3: decimal:  829 --> decimal: 25665
+  VA  4: decimal: 1605 --> SEGMENTATION VIOLATION
+  VA  5: decimal:  621 --> decimal: 25457
+  VA  6: decimal:  976 --> SEGMENTATION VIOLATION
+  VA  7: decimal: 1194 --> SEGMENTATION VIOLATION
+  VA  8: decimal: 1859 --> SEGMENTATION VIOLATION
+  VA  9: decimal: 1033 --> SEGMENTATION VIOLATION

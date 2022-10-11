@@ -1,0 +1,154 @@
+Q1. python3 malloc.py -n 10 -H 0 -p BEST -s 0
+ptr[0] = Alloc(3) returned 1000 (searched 1 element)
+List [ Size 1 ]:  [ addr:1003 sz:97 ]
+
+Free(ptr[0])
+returned 0
+List [ Size 2 ]:  [ addr:1000 sz:3 ][ addr:1003 sz:97 ]
+
+ptr[1] = Alloc(5) returned 1003 (searched 2 elements)
+List [ Size 2 ]:  [ addr:1000 sz:3 ][ addr:1008 sz:92 ]
+
+Free(ptr[1])
+returned 0
+List? [ Size 3 ]:  [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1008 sz:92 ]
+
+ptr[2] = Alloc(8) returned 1008 (searched 3 elements)
+List [ Size 3 ]:  [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1016 sz:84 ]
+
+Free(ptr[2])
+returned 0
+List  [ Size 4 ]:  [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1008 sz:8 ]
+[ addr:1016 sz:84 ]
+
+ptr[3] = Alloc(8) returned 1008 (searched 4 elements)
+Free List [ Size 3 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1016 sz:84 ]
+
+Free(ptr[3])
+returned 0
+Free List [ Size 4 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1008 sz:8 ][ addr:1016 sz:84 ]
+
+ptr[4] = Alloc(2) returned 1000 (searched 4 elements)
+Free List [ Size 4 ]: [ addr:1002 sz:1 ][ addr:1003 sz:5 ][ addr:1008 sz:8 ][ addr:1016 sz:84 ]
+
+ptr[5] = Alloc(7) returned 1008 (searched 4 elements)
+Free List [ Size 4 ]: [ addr:1002 sz:1 ][ addr:1003 sz:5 ][ addr:1015 sz:1 ][ addr:1016 sz:84 ]
+
+The size of free list increases over time as we do allocation and deallocation.
+Also the free list is broken down into smaller segments.
+
+Q2. The size of the free list increases even more while using worst fit
+policy for free space allocation. Also we need to search more elements while
+allocating space for new malloc calls. 
+
+ptr[0] = Alloc(3) returned 1000 (searched 1 elements)
+Free List [ Size 1 ]: [ addr:1003 sz:97 ]
+
+Free(ptr[0])
+returned 0
+Free List [ Size 2 ]: [ addr:1000 sz:3 ][ addr:1003 sz:97 ]
+
+ptr[1] = Alloc(5) returned 1003 (searched 2 elements)
+Free List [ Size 2 ]: [ addr:1000 sz:3 ][ addr:1008 sz:92 ]
+
+Free(ptr[1])
+returned 0
+Free List [ Size 3 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1008 sz:92 ]
+
+ptr[2] = Alloc(8) returned 1008 (searched 3 elements)
+Free List [ Size 3 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1016 sz:84 ]
+
+Free(ptr[2])
+returned 0
+Free List [ Size 4 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1008 sz:8 ][ addr:1016 sz:84 ]
+
+ptr[3] = Alloc(8) returned 1016 (searched 4 elements)
+Free List [ Size 4 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1008 sz:8 ][ addr:1024 sz:76 ]
+
+Free(ptr[3])
+returned 0
+Free List [ Size 5 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1008 sz:8 ][ addr:1016 sz:8 ][ addr:1024 sz:76 ]
+
+ptr[4] = Alloc(2) returned 1024 (searched 5 elements)
+Free List [ Size 5 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1008 sz:8 ][ addr:1016 sz:8 ][ addr:1026 sz:74 ]
+
+ptr[5] = Alloc(7) returned 1026 (searched 5 elements)
+Free List [ Size 5 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1008 sz:8 ][ addr:1016 sz:8 ][ addr:1033 sz:67 ]
+
+Q3. The search for free space speeds up when we use first fit.
+The return value of return/malloc and state of free list is as follows 
+when we use first fit.
+ptr[0] = Alloc(3) returned 1000 (searched 1 elements)
+Free List [ Size 1 ]: [ addr:1003 sz:97 ]
+
+Free(ptr[0])
+returned 0
+Free List [ Size 2 ]: [ addr:1000 sz:3 ][ addr:1003 sz:97 ]
+
+ptr[1] = Alloc(5) returned 1003 (searched 2 elements)
+Free List [ Size 2 ]: [ addr:1000 sz:3 ][ addr:1008 sz:92 ]
+
+Free(ptr[1])
+returned 0
+Free List [ Size 3 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1008 sz:92 ]
+
+ptr[2] = Alloc(8) returned 1008 (searched 3 elements)
+Free List [ Size 3 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1016 sz:84 ]
+
+Free(ptr[2])
+returned 0
+Free List [ Size 4 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1008 sz:8 ][ addr:1016 sz:84 ]
+
+ptr[3] = Alloc(8) returned 1008 (searched 3 elements)
+Free List [ Size 3 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1016 sz:84 ]
+
+Free(ptr[3])
+returned 0
+Free List [ Size 4 ]: [ addr:1000 sz:3 ][ addr:1003 sz:5 ][ addr:1008 sz:8 ][ addr:1016 sz:84 ]
+
+ptr[4] = Alloc(2) returned 1000 (searched 1 elements)
+Free List [ Size 4 ]: [ addr:1002 sz:1 ][ addr:1003 sz:5 ][ addr:1008 sz:8 ][ addr:1016 sz:84 ]
+
+ptr[5] = Alloc(7) returned 1008 (searched 3 elements)
+Free List [ Size 4 ]: [ addr:1002 sz:1 ][ addr:1003 sz:5 ][ addr:1015 sz:1 ][ addr:1016 sz:84 ]
+
+Q4. The number of elements searched to find free space and the time taken
+to find free space does not depend on the order of free list for best and 
+worst fit policies as we need to traverse the whole list to find the best 
+or worst fit.
+The number of elements searched to find free space and the time taken
+to find free space decreases if the free list is ordered in decreasing order
+of the size of free list.
+
+Q5. python3 malloc.py -n 1000 -H 0 -p BEST -s 1 -c -C
+
+The system is not able to satisfy larger allocation requests over time without
+coalescing. But the system is able to satisfy the same larger allocation 
+requests over time with coalescing. We also notice that size of free list
+is much larger without coalescing than with coalescing.
+
+The system is unable to coalesce(even with -C option) the list if we order the free list based on size of free space instead of the address of free space.
+
+Q6. python3 malloc.py -n 100 -H 0 -p BEST -s 1 -P 1 -c -C
+
+If we increas the percent allocated fraction to greater than 50 some requests 
+do not get satisfied as the system uses up most of the memory. The number of
+failed allocation requests increases as percent allocated fraction near 100 even with coalescing. 
+As the percent nears 0 most of the requests are free and size of the list is 
+small with coalescing and all the requests are satisfied.
+
+Q7. python3 malloc.py -H 0 -p BEST -c -A +10,+20,+30,+20,-0,-2 -C
+
+The options above will create a fragmented free space list. At the end of 
+all operations the free list will look like: 
+Free List [ Size 3 ]: [ addr:1000 sz:10 ][ addr:1030 sz:30 ][ addr:1080 sz:20 ]
+, with three fragmented areas of memory of size 10, 30, and 20. Total free 
+memory is 60, but we cannot alloc 60 as memory is fragmented. We can only
+allocate atmost 30 bytes even with coalescing.
+The free space remains fragmented using different policies like worst fit and
+first fit and even with different ordering options for free list. The free list
+is ordered in increasing order of free size by using -l SIZESORT+ and in 
+decreasing order of free size by using -l SIZESORT- and by address by using
+-l ADDRSORT.
+
+

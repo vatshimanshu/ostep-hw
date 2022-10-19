@@ -7,6 +7,9 @@
 
 #define PAGESIZE 16384
 
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
+
 int main(int argc, char *argv[])
 {
     if (argc < 3)
@@ -23,11 +26,10 @@ int main(int argc, char *argv[])
     int num_trials = atoi(argv[2]);
     int loop = num_trials;
 
-    /* cpu_set_t set;
+    cpu_set_t set;
     CPU_ZERO(&set);
     CPU_SET(0, &set);
     sched_setaffinity(getpid(), sizeof(cpu_set_t), &set);
-    */
 
     int jump = PAGESIZE / sizeof(int);
     int *arr = calloc(9000000, sizeof(int));
@@ -53,3 +55,5 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
+#pragma GCC pop_options

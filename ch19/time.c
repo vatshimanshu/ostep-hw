@@ -5,7 +5,7 @@
 int main() {
     struct timeval start, end;
     gettimeofday(&start, NULL);
-    usleep(500000);
+    usleep(5000);
     gettimeofday(&end, NULL);
 
     printf("Time taken for system call is : %ld micro seconds\n",

@@ -1,0 +1,63 @@
+Q1. The size of page table increases with increase in size of address space.
+The size of page table decreases with increase in size of page size.
+We cannot use big pages in general because big pages will lead to internal
+fragmentation i.e the process may not use the whole page internally.
+
+Q2. -P 1k -a 16k -p 32k -v -u 0
+All the virtual addresses are invalid as no pages have been allocated.
+
+-P 1k -a 16k -p 32k -v -u 25
+All the virtual addresses are invalid except VA 0x00002bc6 which maps to 
+physical address 0x00004fc6 in VPN 10.
+
+-P 1k -a 16k -p 32k -v -u 50
+VA 0x00003385 maps to PA 0x00003f85 in VPN 12
+VA 0x000000e6 maps to PA 0x000060e6 in VPN 0
+VA 0x00001986 maps to PA 0x00007586 in VPN 6
+Rest of the VA are invalid
+
+-P 1k -a 16k -p 32k -v -u 75
+VA 0x00002e0f maps to PA 0x00004e0f in VPN 11
+VA 0x00001986 maps to PA 0x00007d86 in VPN 6
+VA 0x000034ca maps to PA 0x00006cca in VPN 13
+VA 0x00002ac3 maps to PA 0x00000ec3 in VPN 10
+VA 0x00000012 maps to PA 0x00006012 in VPN 0
+
+-P 1k -a 16k -p 32k -v -u 100
+VA 0x00002e0f maps to PA 0x00004e0f in VPN 11
+VA 0x00001986 maps to PA 0x00007d86 in VPN 6
+VA 0x000034ca maps to PA 0x00006cca in VPN 13
+VA 0x00002ac3 maps to PA 0x00000ec3 in VPN 10
+VA 0x00000012 maps to PA 0x00006012 in VPN 0
+
+As we increase the percentage of pages that are allocated, more and more
+pages are mapped to a particular physical frame number (PFN) and thus valid
+and thus we get more valid access and less segmentation fault.
+
+Q3. -P 8 -a 32 -p 1024 -v -s 1
+All the VA are invalid except VA 0x0000000e(decimal 14) which maps to
+VPN 1 and PA 0x0000030e (decimal 782)
+
+-P 8k -a 32k -p 1m -v -s 2
+All the VA maps to either VPN 1 or 2 which are invalid hence all VA are invalid.
+
+-P 1m -a 256m -p 512m -v -s 3
+VA 0x0308b24d maps to PA 0x1f68b24d in VPN 48
+VA 0x02feb67b maps to PA 0x0a9eb67b in VPN 47
+VA 0x0dbcceb4 maps to PA 0x1f2cceb4 in VPN 219
+
+All other VA are invalid.
+
+The first two combinations of physical memory and address space size 
+(-a 32 -p 1024 and -a 32k -p 1m ) are unrealistic because physical memory and addresses spaces sizes are much larger in real world usually in mbs and gbs.
+The third combination is close to real world. (-a 256m -p 512m)
+
+Q4. The simulator does not work for cases when physical memory is less
+than address space size. The simulator throws an error: physical memory size 
+must be GREATER than address space size (for this simulation). 
+
+The simulator also does not run if the page size is greater than address space 
+size. Address space must also be power of 2. 
+
+The simulator also does not run if physical memory or address space is not
+a multiple of page size.

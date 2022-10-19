@@ -1,0 +1,23 @@
+Q1. See time.c for details. I'm using gettimeofday to measure the time taken
+for page access. gettimeofday can measure time in microseconds. An operation 
+has to be greater than 500000 microseconds in order to time it precisely.
+
+Q2. see tlb.c
+
+Q3. See script.sh for details. We need to run 500000000 number of trials for
+reliable measurements.
+
+Q4. Visualization gives us a pictorial representation of the data and the 
+relation of data with respect to each other which makes the data easier to
+digest.
+
+Q5. We can do this by compiling the code with no optimisations.
+
+Q6. We can do this using pthread_setaffinity_np function. If we dont do this
+and the process moves from one cpu to another it will lead to more tlb misses
+and some unexplained spikes in the graph at irregular intervals.
+
+Q7. Not initialising the array before accesing it will lead to higher costs
+ when the array is accessed for the first time. This will lead to a spike 
+ in our cost graph for access of the first page. We can initialise the array
+ with calloc to counterbalance these potential costs.

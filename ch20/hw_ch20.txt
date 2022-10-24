@@ -1,0 +1,52 @@
+Q1. We will only need one register to locate two and three level page table.
+The register will point to the top level of multi level page table. And once
+we have location of top level we can goto lower levels using the translations
+in top level.
+
+Q2. python3 paging-multilevel-translate.py -s 0 -c
+Virtual Address 611c:
+  --> pde index:0x18 [decimal 24] pde contents:0xa1 (valid 1, pfn 0x21 [decimal 33])
+    --> pte index:0x8 [decimal 8] pte contents:0xb5 (valid 1, pfn 0x35 [decimal 53])
+      --> Translates to Physical Address 0x6bc --> Value: 08
+Virtual Address 3da8:
+  --> pde index:0xf [decimal 15] pde contents:0xd6 (valid 1, pfn 0x56 [decimal 86])
+    --> pte index:0xd [decimal 13] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+Virtual Address 17f5:
+  --> pde index:0x5 [decimal 5] pde contents:0xd4 (valid 1, pfn 0x54 [decimal 84])
+    --> pte index:0x1f [decimal 31] pte contents:0xce (valid 1, pfn 0x4e [decimal 78])
+      --> Translates to Physical Address 0x9d5 --> Value: 1c
+Virtual Address 7f6c:
+  --> pde index:0x1f [decimal 31] pde contents:0xff (valid 1, pfn 0x7f [decimal 127])
+    --> pte index:0x1b [decimal 27] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+Virtual Address 0bad:
+  --> pde index:0x2 [decimal 2] pde contents:0xe0 (valid 1, pfn 0x60 [decimal 96])
+    --> pte index:0x1d [decimal 29] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+Virtual Address 6d60:
+  --> pde index:0x1b [decimal 27] pde contents:0xc2 (valid 1, pfn 0x42 [decimal 66])
+    --> pte index:0xb [decimal 11] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+Virtual Address 2a5b:
+  --> pde index:0xa [decimal 10] pde contents:0xd5 (valid 1, pfn 0x55 [decimal 85])
+    --> pte index:0x12 [decimal 18] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+Virtual Address 4c5e:
+  --> pde index:0x13 [decimal 19] pde contents:0xf8 (valid 1, pfn 0x78 [decimal 120])
+    --> pte index:0x2 [decimal 2] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+Virtual Address 2592:
+  --> pde index:0x9 [decimal 9] pde contents:0x9e (valid 1, pfn 0x1e [decimal 30])
+    --> pte index:0xc [decimal 12] pte contents:0xbd (valid 1, pfn 0x3d [decimal 61])
+      --> Translates to Physical Address 0x7b2 --> Value: 1b
+Virtual Address 3e99:
+  --> pde index:0xf [decimal 15] pde contents:0xd6 (valid 1, pfn 0x56 [decimal 86])
+    --> pte index:0x14 [decimal 20] pte contents:0xca (valid 1, pfn 0x4a [decimal 74])
+      --> Translates to Physical Address 0x959 --> Value: 1e
+
+We need three memory accesses to access the data. 
+
+Q3. In practice cache the page table entry will lead to cache hits and thus 
+faster access due to spatial and temporal locality. But in the examples
+the access is random and we will get a lot of misses.

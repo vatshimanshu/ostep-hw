@@ -1,0 +1,38 @@
+Q1. The cpu user time %age goes to 25% when we run mem. The %age of cpu time
+used by user space goes to 50% when we run two instances of mem.
+
+Q2. The swpd memory remains at zero when we run mem 1024. The amount of free 
+memory decreases when we run mem to reflect the memory allocated for the array. 
+When we stop mem the amount of free memory goes back to initial value as 
+expected.
+
+Q3. We get non zero values for swap in and out when running mem with values 
+greater than 6000. The amount of memory swapped in and out decreases with 
+subsequent loops.
+
+Q4. CPU utilization increases when mem is running. Block IO statistics keeps
+changing.
+
+Q5. The performance is much better when everything can fit comfortably in 
+memory ./mem 4000. The bandwith is around 5500 MB/s. First loop takes longer
+than subsequent loops with bandwith of around 2500 MB/s. This is because the 
+cache takes one loop to warm up and build entries in TLB for first loop and 
+hence first loop takes longer, but subsequent are faster as we get more
+TLB hit.
+
+The performance is much worse when everything cannot fit comfortably in 
+memory ./mem 9000. This is because we need to make use of swap space to 
+run the program, which is much slower than physical memory. The bandwith is 
+around 50 MB/s. First loop takes less time than subsequent loops with bandwith 
+of around 1200 MB/s. 
+
+See fig.png for the plot.
+
+Q6. We have a swap space of around 8 GB in the system. Memory allocation fails
+when I try to allocate 15000 MB. 
+
+-bash-4.2$ ./mem 15000
+allocating 15728640000 bytes (15000.00 MB)
+memory allocation failed
+
+Q7. 

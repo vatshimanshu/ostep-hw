@@ -1,0 +1,149 @@
+Q1. Fifo
+ python3 paging-policy.py -s 0 -n 10
+
+Access: 8  Hit/Miss? Miss  State of Memory? 8
+Access: 7  Hit/Miss? Miss  State of Memory? 8,7
+Access: 4  Hit/Miss? Miss State of Memory?  8,7,4
+Access: 2  Hit/Miss? Miss State of Memory?  7,4,2
+Access: 5  Hit/Miss? Miss State of Memory?  4,2,5
+Access: 4  Hit/Miss? Hit State of Memory?   4,2,5
+Access: 7  Hit/Miss? Miss State of Memory?  2,5,7
+Access: 3  Hit/Miss? Miss  State of Memory? 5,7,3
+Access: 4  Hit/Miss? Miss State of Memory?  7,3,4
+Access: 5  Hit/Miss? Miss State of Memory?  3,4,5
+
+python3 paging-policy.py -s 1 -n 10
+
+Access: 1  Hit/Miss? Miss State of Memory? 1
+Access: 8  Hit/Miss? Miss State of Memory? 1,8
+Access: 7  Hit/Miss? Miss State of Memory? 1,8,7
+Access: 2  Hit/Miss? Miss State of Memory? 8,7,2
+Access: 4  Hit/Miss? miss State of Memory? 7,2,4
+Access: 4  Hit/Miss? hit State of Memory? 7,2,4
+Access: 6  Hit/Miss? miss State of Memory? 2,4,6
+Access: 7  Hit/Miss? miss State of Memory? 4,6,7
+Access: 0  Hit/Miss? miss State of Memory? 6,7,0
+Access: 0  Hit/Miss? hit State of Memory? 6,7,0
+
+python3 paging-policy.py -s 2 -n 10 -c
+Access: 9  Hit/Miss? miss State of Memory? 9
+Access: 9  Hit/Miss? hit State of Memory? 9
+Access: 0  Hit/Miss? miss State of Memory? 9,0
+Access: 0  Hit/Miss? hit State of Memory? 9,0
+Access: 8  Hit/Miss? miss State of Memory? 9,0,8
+Access: 7  Hit/Miss? miss State of Memory? 0,8,7
+Access: 6  Hit/Miss? miss State of Memory? 8,7,6
+Access: 3  Hit/Miss? miss State of Memory? 7,6,3
+Access: 6  Hit/Miss? hit State of Memory? 7,6,3
+Access: 6  Hit/Miss? hit State of Memory? 7,6,3
+
+LRU
+python3 paging-policy.py -s 0 -n 10 -p LRU
+Access: 8  Hit/Miss? Miss  State of Memory? 8
+Access: 7  Hit/Miss? Miss  State of Memory? 8,7
+Access: 4  Hit/Miss? Miss State of Memory?  8,7,4
+Access: 2  Hit/Miss? Miss State of Memory?  7,4,2
+Access: 5  Hit/Miss? Miss State of Memory?  4,2,5
+Access: 4  Hit/Miss? Hit State of Memory?   2,5,4
+Access: 7  Hit/Miss? Miss State of Memory?  5,4,7
+Access: 3  Hit/Miss? Miss  State of Memory? 4,7,3
+Access: 4  Hit/Miss? hit State of Memory?  7,3,4
+Access: 5  Hit/Miss? Miss State of Memory?  3,4,5
+
+python3 paging-policy.py -s 1 -n 10 -p LRU
+Access: 1  Hit/Miss? Miss State of Memory? 1
+Access: 8  Hit/Miss? Miss State of Memory? 1,8
+Access: 7  Hit/Miss? Miss State of Memory? 1,8,7
+Access: 2  Hit/Miss? Miss State of Memory? 8,7,2
+Access: 4  Hit/Miss? miss State of Memory? 7,2,4
+Access: 4  Hit/Miss? hit State of Memory? 7,2,4
+Access: 6  Hit/Miss? miss State of Memory? 2,4,6
+Access: 7  Hit/Miss? miss State of Memory? 4,6,7
+Access: 0  Hit/Miss? miss State of Memory? 6,7,0
+Access: 0  Hit/Miss? hit State of Memory? 6,7,0
+
+python3 paging-policy.py -s 2 -n 10 -p LRU
+Access: 9  Hit/Miss? miss State of Memory? 9
+Access: 9  Hit/Miss? hit State of Memory? 9
+Access: 0  Hit/Miss? miss State of Memory? 9,0
+Access: 0  Hit/Miss? hit State of Memory? 9,0
+Access: 8  Hit/Miss? miss State of Memory? 9,0,8
+Access: 7  Hit/Miss? miss State of Memory? 0,8,7
+Access: 6  Hit/Miss? miss State of Memory? 8,7,6
+Access: 3  Hit/Miss? miss State of Memory? 7,6,3
+Access: 6  Hit/Miss? hit State of Memory? 7,3,6
+Access: 6  Hit/Miss? hit State of Memory? 7,3,6
+
+OPT
+python3 paging-policy.py -s 0 -n 10 -p OPT
+Access: 8  Hit/Miss? Miss  State of Memory? 8
+Access: 7  Hit/Miss? Miss  State of Memory? 8,7
+Access: 4  Hit/Miss? Miss State of Memory?  8,7,4
+Access: 2  Hit/Miss? Miss State of Memory?  7,4,2
+Access: 5  Hit/Miss? Miss State of Memory?  4,7,5
+Access: 4  Hit/Miss? Hit State of Memory?   4,7,5
+Access: 7  Hit/Miss? hit State of Memory?  4,7,5
+Access: 3  Hit/Miss? Miss  State of Memory? 4,5,3
+Access: 4  Hit/Miss? hit State of Memory?  4,5,3
+Access: 5  Hit/Miss? hit State of Memory?  4,5,3
+
+python3 paging-policy.py -s 1 -n 10 -p OPT
+Access: 1  Hit/Miss? Miss State of Memory? 1
+Access: 8  Hit/Miss? Miss State of Memory? 1,8
+Access: 7  Hit/Miss? Miss State of Memory? 1,8,7
+Access: 2  Hit/Miss? Miss State of Memory? 8,7,2
+Access: 4  Hit/Miss? miss State of Memory? 7,2,4
+Access: 4  Hit/Miss? hit State of Memory? 7,2,4
+Access: 6  Hit/Miss? miss State of Memory? 7,4,6
+Access: 7  Hit/Miss? hit State of Memory? 4,6,7
+Access: 0  Hit/Miss? miss State of Memory? 6,7,0
+Access: 0  Hit/Miss? hit State of Memory? 6,7,0
+
+python3 paging-policy.py -s 2 -n 10 -p OPT
+Access: 9  Hit/Miss? miss State of Memory? 9
+Access: 9  Hit/Miss? hit State of Memory? 9
+Access: 0  Hit/Miss? miss State of Memory? 9,0
+Access: 0  Hit/Miss? hit State of Memory? 9,0
+Access: 8  Hit/Miss? miss State of Memory? 9,0,8
+Access: 7  Hit/Miss? miss State of Memory? 9,0,7
+Access: 6  Hit/Miss? miss State of Memory? 9,0,6
+Access: 3  Hit/Miss? miss State of Memory? 9,6,3
+Access: 6  Hit/Miss? hit State of Memory? 9,6,3
+Access: 6  Hit/Miss? hit State of Memory? 9,6,3
+
+Q2. For FIFO and LRU we can generate worst case performance by having a
+looping sequential workload of size greater than cache size.
+
+python3 paging-policy.py -C 5 -a 1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6
+will generate worst case hit rate of 0% for a cache size of 5 and 
+for both FIFO and LRU policy. We can dramatically increase performance
+by increasing the size of cache from 5 to 6 for the above workload for both
+FIFO and LRU.
+
+The following workload produces worst case hit rate of 0% for MRU policy.
+python3 paging-policy.py -C 5 -a 1,2,3,4,5,6,5,6,5,6,5,6,5,6 -c -p MRU
+We can increase the hit rate by increasing size of cache from 5 to 6 to get 
+best hit rate.
+
+Q3. 
+We get the following random 20 integers(between 0 and 10) using code in 
+random.py:
+5 8 9 5 0 0 1 7 6 9 2 4 5 2 4 2 4 7 7 9
+
+I would expect that the performance of all the policies will be very close to
+each other.
+All the policies perform very close to each other on this random trace.
+The optimal number of hits using OPT is 11. We get 10 hits using LRU, 9 using
+FIFO and 8 with MRU.
+
+Q4. We will use the 80-20 workload to generate a trace with some locality.
+We will generate total of 20 values from 0 to 9 and 80% of those values(16) 
+will lie between two pages 0 and 1. Rest of the 4 values will lie between 2 and 
+9. See random.py for the code.
+
+The random trace generate using 80-20 rule:
+0,2,0,1,3,2,1,0,1,1,1,1,1,0,1,0,1,1,0,7
+
+LRU gets a hitrate of 65% on this for a cache of size 3.
+
+

@@ -45,8 +45,93 @@ Virtual Address 3e99:
     --> pte index:0x14 [decimal 20] pte contents:0xca (valid 1, pfn 0x4a [decimal 74])
       --> Translates to Physical Address 0x959 --> Value: 1e
 
+python3 paging-multilevel-translate.py -s 1 -c
+PDBR: 17  (decimal) [This means the page directory is held in this page]
+
+Virtual Address 6c74:
+  --> pde index:0x1b [decimal 27] pde contents:0xa0 (valid 1, pfn 0x20 [decimal 32])
+    --> pte index:0x3 [decimal 3] pte contents:0xe1 (valid 1, pfn 0x61 [decimal 97])
+      --> Translates to Physical Address 0xc34 --> Value: 06
+Virtual Address 6b22:
+  --> pde index:0x1a [decimal 26] pde contents:0xd2 (valid 1, pfn 0x52 [decimal 82])
+    --> pte index:0x19 [decimal 25] pte contents:0xc7 (valid 1, pfn 0x47 [decimal 71])
+      --> Translates to Physical Address 0x8e2 --> Value: 1a
+Virtual Address 03df:
+  --> pde index:0x0 [decimal 0] pde contents:0xda (valid 1, pfn 0x5a [decimal 90])
+    --> pte index:0x1e [decimal 30] pte contents:0x85 (valid 1, pfn 0x05 [decimal 5])
+      --> Translates to Physical Address 0x0bf --> Value: 0f
+Virtual Address 69dc:
+  --> pde index:0x1a [decimal 26] pde contents:0xd2 (valid 1, pfn 0x52 [decimal 82])
+    --> pte index:0xe [decimal 14] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+Virtual Address 317a:
+  --> pde index:0xc [decimal 12] pde contents:0x98 (valid 1, pfn 0x18 [decimal 24])
+    --> pte index:0xb [decimal 11] pte contents:0xb5 (valid 1, pfn 0x35 [decimal 53])
+      --> Translates to Physical Address 0x6ba --> Value: 1e
+Virtual Address 4546:
+  --> pde index:0x11 [decimal 17] pde contents:0xa1 (valid 1, pfn 0x21 [decimal 33])
+    --> pte index:0xa [decimal 10] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+Virtual Address 2c03:
+  --> pde index:0xb [decimal 11] pde contents:0xc4 (valid 1, pfn 0x44 [decimal 68])
+    --> pte index:0x0 [decimal 0] pte contents:0xd7 (valid 1, pfn 0x57 [decimal 87])
+      --> Translates to Physical Address 0xae3 --> Value: 16
+Virtual Address 7fd7:
+  --> pde index:0x1f [decimal 31] pde contents:0x92 (valid 1, pfn 0x12 [decimal 18])
+    --> pte index:0x1e [decimal 30] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+Virtual Address 390e:
+  --> pde index:0xe [decimal 14] pde contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page directory entry not valid)
+Virtual Address 748b:
+  --> pde index:0x1d [decimal 29] pde contents:0x80 (valid 1, pfn 0x00 [decimal 0])
+    --> pte index:0x4 [decimal 4] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+
+python3 paging-multilevel-translate.py -s 2 -c
+PDBR: 122  (decimal) [This means the page directory is held in this page]
+
+Virtual Address 7570:
+  --> pde index:0x1d [decimal 29] pde contents:0xb3 (valid 1, pfn 0x33 [decimal 51])
+    --> pte index:0xb [decimal 11] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+Virtual Address 7268:
+  --> pde index:0x1c [decimal 28] pde contents:0xde (valid 1, pfn 0x5e [decimal 94])
+    --> pte index:0x13 [decimal 19] pte contents:0xe5 (valid 1, pfn 0x65 [decimal 101])
+      --> Translates to Physical Address 0xca8 --> Value: 16
+Virtual Address 1f9f:
+  --> pde index:0x7 [decimal 7] pde contents:0xaf (valid 1, pfn 0x2f [decimal 47])
+    --> pte index:0x1c [decimal 28] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+Virtual Address 0325:
+  --> pde index:0x0 [decimal 0] pde contents:0x82 (valid 1, pfn 0x02 [decimal 2])
+    --> pte index:0x19 [decimal 25] pte contents:0xdd (valid 1, pfn 0x5d [decimal 93])
+      --> Translates to Physical Address 0xba5 --> Value: 0b
+Virtual Address 64c4:
+  --> pde index:0x19 [decimal 25] pde contents:0xb8 (valid 1, pfn 0x38 [decimal 56])
+    --> pte index:0x6 [decimal 6] pte contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page table entry not valid)
+Virtual Address 0cdf:
+  --> pde index:0x3 [decimal 3] pde contents:0x9d (valid 1, pfn 0x1d [decimal 29])
+    --> pte index:0x6 [decimal 6] pte contents:0x97 (valid 1, pfn 0x17 [decimal 23])
+      --> Translates to Physical Address 0x2ff --> Value: 00
+Virtual Address 2906:
+  --> pde index:0xa [decimal 10] pde contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page directory entry not valid)
+Virtual Address 7a36:
+  --> pde index:0x1e [decimal 30] pde contents:0x8a (valid 1, pfn 0x0a [decimal 10])
+    --> pte index:0x11 [decimal 17] pte contents:0xe6 (valid 1, pfn 0x66 [decimal 102])
+      --> Translates to Physical Address 0xcd6 --> Value: 09
+Virtual Address 21e1:
+  --> pde index:0x8 [decimal 8] pde contents:0x7f (valid 0, pfn 0x7f [decimal 127])
+      --> Fault (page directory entry not valid)
+Virtual Address 5149:
+  --> pde index:0x14 [decimal 20] pde contents:0xbb (valid 1, pfn 0x3b [decimal 59])
+    --> pte index:0xa [decimal 10] pte contents:0x81 (valid 1, pfn 0x01 [decimal 1])
+      --> Translates to Physical Address 0x029 --> Value: 1b
+
 We need three memory accesses to access the data. 
 
-Q3. In practice cache the page table entry will lead to cache hits and thus 
+Q3. In practice caching the page table entry will lead to cache hits and thus 
 faster access due to spatial and temporal locality. But in the examples
 the access is random and we will get a lot of misses.

@@ -1,0 +1,78 @@
+Q1.    dx          Thread 0         
+        0   
+        -1   1000 sub  $1,%dx
+        -1   1001 test $0,%dx
+        -1   1002 jgte .top
+        -1   1003 halt
+
+Initially the register dx will have zero as its contents. After we substract 1
+at PC 1000 the dx register will contain -1.
+
+Q2. The value of dx will decrease from 3 to -1 and the loop will run for 4
+iterations until it stops. There is no race in this code and presence of 
+multiple threads does not effect the execution as the threads are not sharing
+any memory, both the threads have their own local copy of register dx. Since
+there is no shared memory there is no race condition.
+
+Q3. Reducing the interrupt frequency to 3 makes the two threads interleave with
+each other and we can't predict which thread will run at which time and when
+the switch will happen, but the dx register still goes from 3 to -1 for both
+threads and loop runs for 4 iterations and there is no race condition.
+
+Q4. Initially memory address 2000 has value 0. We increment it to 1 in the 
+first three instructions, after that we exit from the loop.
+
+Q5. Each thread loop three times because the loop register bx has been set to
+3 and loop will run until bx becomes less than zero. The final value of value
+will be 6 since the both thread loop 3 times and increment value by 1 every 
+loop.
+
+Q6. python3 ./x86.py -p looping-race-nolock.s -t 2 -M 2000 -i 4 -r -s 1
+Yes, we can predict the final value of value by looking at the thread 
+interleaving. Final value is 2 for s=0 and s=2 and 1 for s=1.
+Yes the timing of the interrupt matter, since both threads are sharing memory.
+
+The interrupt can safely occur in the last 3 instructions of the code:
+sub  $1, %bx
+test $0, %bx
+jgt .top
+
+The interrupt can't safely occur in the first 3 instructions:
+mov 2000, %ax  # get 'value' at address 2000
+add $1, %ax    # increment it
+mov %ax, 2000  # store it back
+This is because we are accessing shared memory at memory address 2000 here, 
+hence this is the critical section of code.
+
+Q7. Final value for interrupt interval i = 1, is 1.
+for i = 2, value = 1,
+for i >= 3, value = 2
+
+The correct answer is 2 as both thread should increment value by 1. The program
+gives correct answer for interrupt intervals greater than equal to 3. 
+
+Q8. python3 ./x86.py -p looping-race-nolock.s -a bx=100 -t 2 -M 2000 -i 6 -c
+The interrupt intervals which are multiple of 3 (3,6,9,12,..) lead to a correct
+output. It is surprising that values greater than 3 like 4,5 which worked for
+previous scenario does not work when we increase the number of loops. This is
+because at i=4, the first loop will be fine, but the next loop will run into
+race condition. 
+
+Q9. thread 0 (which is the signaller) will run first. It will set value at 2000
+address as 1 and exit. Then waiter thread will run and read the value at 2000
+address and if its equal to 1 the thread will exit. Therefore the final value 
+at 2000 will be 1. 
+The signaller thread is setting the value at 2000 while the waiter thread is 
+reading the value at 2000. 
+
+Q10. Thread 0 is waiter thread now and it will simply check the value at address
+2000. If the value = 1 it will exit otherwise it will check again. Since value
+at address 2000 is 0, it will continue to execute until interrupt. 
+After interrupt thread 1 or signaller will run and set value at 2000 to 1.
+Now when the waiter runs it will exit. 
+If we set interrupt interval as 1000 the waiter thread will run for 1000 
+instructions before signaller sets the value to 1 and waiter exits. Therefore 
+program will not efficiently use the cpu as the waiter is just waiting for the 
+value to be equal to 1 and it is not doing any other work for 1000 instructions.
+If we set smaller interrupt interval the threads will interleave and hence
+signaller and waiter can both exit earlier.

@@ -1,0 +1,39 @@
+Q1. Yes it points to the right lines of code. It also tells us that there are
+two threads in the process: main thread and worker thread and that the race 
+condition can occur during read or write of shared variable balance by the two
+threads.
+
+Q2. Helgrind reports no error when we remove one of the offending lines of 
+code as there will be no race condition as the threads dont share variable.
+Helgrind also reports no error when we place a lock around both the upates to
+balance variable.
+Helgrind reports the same error as Q1 when we place lock around just one of 
+the updates.
+
+Q3. The problem with the main-deadlock.c is that thread p1 can have a lock on m1
+and then a context switch can happen and p2 will have a lock on m2 and then 
+again context switch happen and we can end up in deadlock, where p1 is stuck 
+as it can't get a lock on m2 as p2 has it and p2 can't get lock m1 since p1 has 
+it. Hence both threads will be stuck.
+
+Q4. Helgrind reports an error with the order of locks in the two threads.
+Thread #3: lock order "0x601080 before 0x6010C0" violated
+
+Q5. main-deadlock-global.c solves the deadlock problem by introducing a global
+lock variable, but Helgrind reports the same error as Q4 for 
+main-deadlock-global.c as  well. This tells us that tools like Helgrind are
+not completely reliable.
+
+Q6. This code is inefficient as the parent spends cpu cycles waiting for the 
+child thread to complete. If the child thread takes a long to complete, and we 
+keep switching between child and parent, the parent will spend cpu cycles doing
+nothing and hence the code is highly inefficient.
+
+Q7. Helgrind reports a possible race condition during read of done in parent
+and write of done in child. 
+
+Q8. Condition variables are preffered to signal instead of flag varibales 
+because code using flag varibales can be buggy and using flag causes poor
+performance due to wasted cpu cycles. So its both correctness and performance.
+
+Q9. Helgrind does not report any errors.

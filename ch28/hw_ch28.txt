@@ -1,0 +1,63 @@
+Q1. Yes I can understand the assembly code. The code increments the shared   
+variable count by 1 in a loop. The code aquires a lock(using flag var) before 
+updating the shared varibale and releases the lock once the update is done.
+
+Q2. python3 ./x86.py -p flag.s -M flag,count -R ax,bx -c 
+
+Yes flag works with defaults. Flag will end up with 0 and count with 2.
+
+Q3. python3 ./x86.py -p flag.s -M flag,count -R ax,bx -c -a bx=2,bx=2
+The code will loop for the number of times specified by reg bx(2 here).
+Flag will end up with 0 and count with 4.
+
+Q4. python3 ./x86.py -p flag.s -M flag,count -R ax,bx -c -a bx=20,bx=20 -i 74
+The expected output for count should be 40, but we get wrong answers for 
+i < 73 and i != multiple of 11, which means that lock is not working as 
+expected.
+The expected output is 40 for i >= 74 and for i = multiple of 11.
+
+Q5. Lock is aquired by using xchg atomic swap instruction. We move 1 to ax and
+exchange the contents of ax and mutex and then we test if ax contains 0, if it 
+does lock is aquired, otherwise we will try to aquire lock again.
+
+Lock is released by simply setting mutex varibale to zero.
+
+Q6. python3 ./x86.py -p test-and-set.s -M mutex,count -R ax,bx -c -a bx=20,
+bx=20 i 1
+Yes the code always works as expected for all values of i indicating lock 
+works correctly. 
+Yes we waste some cpu cycles when we don't make any changes to
+the counter and simply spin and wait for the other thread to release the lock.
+We can quantify that by counting the number of cpu cycles we spin and don;t 
+update counter divided by total number of cpu cycles.
+
+Q7. python3 ./x86.py -p test-and-set.s -M mutex,count -R ax,bx -c -a bx=20,bx=20 -P 0011
+Yes we get right value for count. We should also test fairness and performance.
+
+Q8. The code attempts to create a lock using just the simple instructions of 
+move, add, etc using two flag and one turn variable.
+
+Q9. We always get the right value of count for different values of i.
+The program spins more for some values of i while it spins less for other values
+e.g. the program spins the most for i=5 and least for i > 12.
+
+Q10. ./x86.py -p peterson.s -M count,flag,turn -R ax,cx -a bx=0,bx=1 -c -P 0000011111
+
+Q11. python3 ./x86.py -p ticket.s -M ticket,turn,count -R ax,cx,bx -a bx=1000,bx=1000 -c
+Yes it matches the code in text. The count is correct, but the thread  
+spends a lot of time spin waiting.
+
+Q12. python3 ./x86.py -p ticket.s -M ticket,turn,count -R ax,cx,bx -a bx=10 -c -t 5 -S
+spin waiting increases as we add more threads.
+
+Q13. python3 ./x86.py -p yield.s -M mutex,count -R ax,bx -c -a bx=20,bx=20 i 1 -S
+test-and-set takes 694 instruction and yield takes only 466 instruction, saving
+228 instructions. These savings arise when lock is held by the other thread and 
+hence the currently scheduled thread can't run, therefore it's better to yield
+cpu instead of spinning.
+
+Q14. test-and-test-and-set tests if the lock is available before updating the 
+mutex with xchg instruction.
+Here we will only update mutex if the lock is free. This avoids 
+unneccessary write of mutex when the lock can;t be aquired as opposed to 
+test-and-set.

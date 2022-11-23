@@ -24,5 +24,7 @@ Time taken for 4 threads : 140613 micro seconds
 
 The number are not as expceted.
 
-Q4. 
+Q4. Never. The overheads of acquiring and releasing locks for each node
+of a list traversal is prohibitive.
+
 

@@ -1,0 +1,28 @@
+Q1. See time.c for details. I'm using gettimeofday to measure the time taken
+for page access. gettimeofday can measure time in microseconds.
+
+Q2. There are 8 cpus available in my mac. This does not impact our measurement.
+Time take for 1 thread = 22541 micro seconds
+Time take for 2 threads = 45213 micro seconds
+Time take for 3 threads = 197052 micro seconds
+Time take for 4 threads = 133311 micro seconds
+
+Q3. threshold 1024
+Time take for 1 thread = 24607 micro seconds
+Time take for 2 thread = 69533 micro seconds
+Time take for 3 thread = 98798 micro seconds
+Time take for 4 thread = 134283 micro seconds
+
+Threshold 1:
+Time taken for 4 threads : 171174 micro seconds
+
+Threshold 2:
+Time taken for 4 threads : 147478 micro seconds
+
+Threshold 4:
+Time taken for 4 threads : 140613 micro seconds
+
+The number are not as expceted.
+
+Q4. 
+

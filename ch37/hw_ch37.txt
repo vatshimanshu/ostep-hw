@@ -1,0 +1,135 @@
+Q1. python3 disk.py -a 0 -c
+Block:   0  Seek:  0  Rotate:165  Transfer: 30  Total: 195
+
+python3 disk.py -a 6 -c
+Block:   6  Seek:  0  Rotate:345  Transfer: 30  Total: 375
+
+python3 disk.py -a 30 -c
+Block:  30  Seek: 80  Rotate:265  Transfer: 30  Total: 375
+
+python3 disk.py -a 7,30,8 -c
+Block:   7  Seek:  0  Rotate: 15  Transfer: 30  Total:  45
+Block:  30  Seek: 80  Rotate:220  Transfer: 30  Total: 330
+Block:   8  Seek: 80  Rotate:310  Transfer: 30  Total: 420
+
+TOTALS      Seek:160  Rotate:545  Transfer: 90  Total: 795
+
+python3 disk.py -a 10,11,12,13 -c
+Block:  10  Seek:  0  Rotate:105  Transfer: 30  Total: 135
+Block:  11  Seek:  0  Rotate:  0  Transfer: 30  Total:  30
+Block:  12  Seek: 40  Rotate:320  Transfer: 30  Total: 390
+Block:  13  Seek:  0  Rotate:  0  Transfer: 30  Total:  30
+
+TOTALS      Seek: 40  Rotate:425  Transfer:120  Total: 585
+
+Q2. python3 disk.py -a 7,30,8 -c -S 2
+TOTALS      Seek: 80  Rotate:625  Transfer: 90  Total: 795
+
+python3 disk.py -a 7,30,8 -c -S 4
+TOTALS      Seek: 40  Rotate:305  Transfer: 90  Total: 435
+
+python3 disk.py -a 7,30,8 -c -S 8
+TOTALS      Seek: 20  Rotate:325  Transfer: 90  Total: 435
+
+python3 disk.py -a 7,30,8 -c -S 0.1
+TOTALS      Seek:1602  Rotate:543  Transfer: 90  Total:2235
+
+Seek time reduces by a factor of S when S > 1 and seek time increase when S < 0.
+
+Q3. python3 disk.py -a 7,30,8 -c -R 0.1
+TOTALS      Seek:160  Rotate:3289  Transfer:900  Total:4349
+
+python3 disk.py -a 7,30,8 -c -R 0.5
+TOTALS      Seek:160  Rotate:1250  Transfer:180  Total:1590
+
+python3 disk.py -a 7,30,8 -c -R 0.01
+TOTALS      Seek:160  Rotate:34340  Transfer:9000  Total:43500
+
+Both rotation time and transfer time increase for values of R < 0, with values 
+increasing more for smaller values of R.
+
+Q4. for the workload: -a 7,30,8
+FIFO: 7,30,8
+SSTF: 7,8,30
+
+python3 disk.py -a 7,30,8 -c -p SSTF
+Block:   7  Seek:  0  Rotate: 15  Transfer: 30  Total:  45
+Block:   8  Seek:  0  Rotate:  0  Transfer: 30  Total:  30
+Block:  30  Seek: 80  Rotate:190  Transfer: 30  Total: 300
+
+TOTALS      Seek: 80  Rotate:205  Transfer: 90  Total: 375
+
+Q5. python3 disk.py -a 7,30,8 -c -p SATF
+SATF does not make a difference for 7,30,8 workload.
+
+python3 disk.py -a 35,17 -c -p SSTF -G
+Block:  17  Seek: 40  Rotate:275  Transfer: 30  Total: 345
+Block:  35  Seek: 40  Rotate:110  Transfer: 30  Total: 180
+TOTALS      Seek: 80  Rotate:385  Transfer: 60  Total: 525
+
+python3 disk.py -a 35,17 -c -p SATF -G
+Block:  35  Seek: 80  Rotate: 55  Transfer: 30  Total: 165
+Block:  17  Seek: 40  Rotate:110  Transfer: 30  Total: 180
+TOTALS      Seek:120  Rotate:165  Transfer: 60  Total: 345
+
+SATF performs better than SSTF when the cost of rotation is higher than cost of
+seek.
+
+Q6. python3 disk.py -a 10,11,12,13 -G
+Here we have consecutive blocks but block 12 and 13 are in a different sector 
+than 10 and 11 and when we switch to different sector we have to go through 
+almost one full rotation to service 12 and 13 blocks.
+
+python3 disk.py -a 10,11,12,13 -c -o 2
+Block:  10  Seek:  0  Rotate:105  Transfer: 30  Total: 135
+Block:  11  Seek:  0  Rotate:  0  Transfer: 30  Total:  30
+Block:  12  Seek: 40  Rotate: 20  Transfer: 30  Total:  90
+Block:  13  Seek:  0  Rotate:  0  Transfer: 30  Total:  30
+TOTALS      Seek: 40  Rotate:125  Transfer:120  Total: 285
+skew should be 2 blocks to maximize performance.
+
+-S 2: skew = 1
+-S 4: skew = 1
+
+skew = (track size / seek) * (rot-speed/(360/12))
+
+Q7.  python3 disk.py -z 10,20,30  -a -1 -A 5,-1,0 -c
+REQUESTS [45, 40, 22, 13, 27]
+
+Block:  45  Seek: 40  Rotate:310  Transfer: 20  Total: 370
+Block:  40  Seek:  0  Rotate:240  Transfer: 20  Total: 260
+Block:  22  Seek: 40  Rotate: 85  Transfer: 10  Total: 135
+Block:  13  Seek:  0  Rotate:260  Transfer: 10  Total: 270
+Block:  27  Seek:  0  Rotate:130  Transfer: 10  Total: 140
+
+TOTALS      Seek: 80  Rotate:1025  Transfer: 70  Total:1175
+
+bandwith=
+outer = 3/(135+270+140)=0.0055
+middle = 2/(370+260)=0.0032
+
+python3 disk.py -z 10,20,30  -a -1 -A 5,-1,0 -G -s 2
+REQUESTS [51, 51, 3, 4, 45]
+
+Block:  51  Seek: 40  Rotate: 70  Transfer: 20  Total: 130
+Block:  51  Seek:  0  Rotate:340  Transfer: 20  Total: 360
+Block:   3  Seek: 40  Rotate: 35  Transfer: 10  Total:  85
+Block:   4  Seek:  0  Rotate:  0  Transfer: 10  Total:  10
+Block:  45  Seek: 40  Rotate: 85  Transfer: 20  Total: 145
+
+TOTALS      Seek:120  Rotate:530  Transfer: 80  Total: 730
+
+bandwith =
+outer = 2 / (85 + 10) = 0.02
+middle = 3 /(130+360+145) = 0.004
+
+Q8. when S= 1 it does not matter which policy we are using, because can only 
+schedule one request at a time, which is the next request.
+
+python3 disk.py -A 1000,-1,0 -w 1 -p SATF -c : Total:220125
+
+python3 disk.py -A 1000,-1,0 -w 1 -p SATF -c : Total:64635
+
+python3 disk.py -A 1000,-1,0 -w 1 -p SATF -c :  Total:37275
+
+python3 disk.py -A 1000,-1,0 -w 1 -p SATF -c : Total:35475

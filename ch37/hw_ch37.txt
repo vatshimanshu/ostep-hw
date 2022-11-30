@@ -133,3 +133,22 @@ python3 disk.py -A 1000,-1,0 -w 1 -p SATF -c : Total:64635
 python3 disk.py -A 1000,-1,0 -w 1 -p SATF -c :  Total:37275
 
 python3 disk.py -A 1000,-1,0 -w 1 -p SATF -c : Total:35475
+
+Maximum performance is achieved when window size is equal to size of requests
+i.e 1000
+
+Q9. python3 ./disk.py -a 20,3,4,7,8,9,10 -G -p SATF: 435
+Request for block 20 will be starved.
+
+We can solve starvation by using BSATF with a window size of 4
+python3 ./disk.py -a 20,3,4,7,8,9,10 -G -p BSATF -w 4: 855
+
+BSATF performs worse than SATF but is good for starvation. If we increase the 
+window size in BSATF the performance will improve, but if we increase the 
+window size too much it will lead to starvation. Hence it is important to find
+a value of window that works well for both.
+
+Q10. Greedy will not be optimal in the following set of requests:
+
+python3 ./disk.py -a 10,21 -c -p SATF: 495
+python3 ./disk.py -a 10,21 -c: 465
